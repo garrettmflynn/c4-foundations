@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is building a PWA release
 
 on:
   push:
-    branches: ["main"]
+    branches: ["latest"]
 
   workflow_dispatch:
 

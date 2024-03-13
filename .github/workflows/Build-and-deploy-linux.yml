@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is building a Linux release
 
 on:
   push:
-    branches: ["main"]
+    branches: ["latest"]
 
   workflow_dispatch:
 
