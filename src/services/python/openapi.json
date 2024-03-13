@@ -18,8 +18,8 @@
     ],
     "tags": [
         {
-            "name": "version",
-            "description": "Version endpoint"
+            "name": "connected",
+            "description": "Connection check endpoint"
         },
         {
             "name": "users",
@@ -31,13 +31,13 @@
         }
     ],
     "paths": {
-        "/version": {
+        "/connected": {
             "get": {
                 "tags": [
-                    "version"
+                    "connection"
                 ],
-                "operationId": "getPythonVersion",
-                "description": "Get the active version of Python",
+                "operationId": "isConnected",
+                "description": "Get the connection status of Python",
                 "parameters": [],
                 "responses": {
                     "200": {

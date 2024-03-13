@@ -1,6 +1,5 @@
 // ------------- PRODUCTION -------------
 import * as bluetoothPlugin from '@commoners/bluetooth'
-import * as serialPlugin from '@commoners/serial'
 import localServicesPlugin from '@commoners/local-services'
 // import { defineConfig } from 'commoners' // NOTE: commoners dependencies are missing in local development...
 
@@ -17,8 +16,10 @@ import localServicesPlugin from '@commoners/local-services'
 const defineConfig = (o) => o 
 
 export default defineConfig({
+
+    name: "C4 Foundations",
     
-    // icon: './icon.png', 
+    icon: './logo.png', 
 
     electron: {
         splash: './splash.html',
@@ -30,7 +31,6 @@ export default defineConfig({
 
     plugins: {
         bluetooth: bluetoothPlugin,
-        serial: serialPlugin,
         localServices: localServicesPlugin((ip, env) => {
             const isLocalIP = ip === 'localhost'
             const hasAuthString = process.env.SHARE_SECRET_KEY === env.SHARE_SECRET_KEY
@@ -62,19 +62,6 @@ export default defineConfig({
 
     services: {
 
-        // Packaged with pkg
-        dynamicNode: {
-            description: 'A simple Node.js server',
-            src: './src/services/node/index.js',
-            publish: 'https://node-production-aa81.up.railway.app/'
-        },
-
-        localNode: {
-            description: 'A local Node.js server',
-            src: './src/services/node/index.js',
-            publish: true // Any local configuration defaults to this
-        },
-
         // Packaged with pyinstaller
         python: {
             description: 'A simple Python server',
@@ -88,13 +75,6 @@ export default defineConfig({
                     base: './build/python/flask', // Will be copied
                 }
             }
-        },
-
-        remote: 'https://jsonplaceholder.typicode.com',
-
-        dynamic: {
-            src: 'http://localhost:1111', // Call the python server in development
-            publish: 'https://jsonplaceholder.typicode.com'
         }
     }
 })

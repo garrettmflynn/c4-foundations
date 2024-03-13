@@ -1,14 +1,14 @@
 {
-  "name": "commoners-starter-kit",
+  "name": "c4-foundations",
   "version": "0.0.0",
-  "description": "A template Commoners application.",
+  "description": "A research application for the C4 Foundation.",
   "private": true,
   "type": "module",
   "license": "MIT",
   "author": "Garrett Flynn <garrettmflynn@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/garrettmflynn/commoners-starter-kit.git"
+    "url": "https://github.com/garrettmflynn/c4-foundations.git"
   },
   "workspaces": [
     "src/**"

@@ -59,6 +59,7 @@ const display = (message: string) => {
 const onData = (data: any) => {
   if (data.error) return console.error(data.error)
 
+  console.log(data)
   display(`${data.source ? `${data.source} (${data.command})` : data.command} - ${JSON.stringify(data.payload)}`)
 }
 
@@ -122,9 +123,9 @@ if (commoners.services.python) {
   const pythonUrl = new URL(commoners.services.python.url) // Equivalent to commoners://python
 
   const runCommands = async () => {
-      fetch(new URL('version', pythonUrl))
+      fetch(new URL('connected', pythonUrl))
       .then(res => res.json())
-      .then(payload => onData({ source: 'Python', command: 'version', payload }))
+      .then(payload => onData({ source: 'Python', command: 'connected', payload }))
       .catch(e => console.error('Failed to request from Python server', e))
   }
 
@@ -140,24 +141,6 @@ if (commoners.services.python) {
   else runCommands()
  
 }
-
-
-
-// --------- Web Serial Test ---------
-async function requestSerialPort () {
-
-  try {
-
-    const port = await navigator.serial.requestPort({ 
-      // filters
-    })
-    const portInfo = port.getInfo()
-    display(`Connected to Serial Port: vendorId: ${portInfo.usbVendorId} | productId: ${portInfo.usbProductId}`)
-  } catch (e: any) {
-    console.error(e)
-  }
-}
-
 
 commoners.ready.then(plugins => {
 
@@ -183,17 +166,14 @@ commoners.ready.then(plugins => {
   }
 
 
-  const testSerialConnection = document.getElementById('testSerialConnection')
-  if (testSerialConnection) {
-    if ('serial' in plugins) testSerialConnection.addEventListener('click', requestSerialPort)
-    else testSerialConnection.setAttribute('disabled', '')
-  }
   // --------- Web Bluetooth Test ---------
   async function requestBluetoothDevice () {
 
     // Use the Capacitor API to support mobile
     await BleClient.initialize();
-    const device = await BleClient.requestDevice();
+    const device = await BleClient.requestDevice({
+      namePrefix: "Muse"
+    });
 
     // const device = await navigator.bluetooth.requestDevice({ acceptAllDevices: true })
     console.log(device)

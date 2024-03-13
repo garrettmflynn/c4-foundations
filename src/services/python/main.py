@@ -13,11 +13,10 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 def openapi():
     return send_file('openapi.json')
 
-@app.route('/version')
+@app.route('/connected')
 @cross_origin()
-def version():
-    print(f'Getting version: {sys.version}', flush=True) # Required to show in logs
-    return jsonify(sys.version)
+def isConnected():
+    return { "message": 'Can do whatever we want in Python' }
 
 @app.route('/users')
 @cross_origin()
