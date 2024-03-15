@@ -22,12 +22,7 @@ export default defineConfig({
 
     services: {
 
-        // acquisitionWorker: {
-        //     src: './src/services/workers/acquisition.worker.ts',
-        //     channels: {
-        //         analyze: 'analysisWorker'
-        //     }
-        // },
+        // acquisitionWorker: './src/services/workers/acquisition.worker.ts',
 
         // analysisWorker: './src/services/workers/analysis.worker.ts',
 
