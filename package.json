@@ -1,6 +1,6 @@
 {
   "name": "c4-foundations",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A research application for the C4 Foundation.",
   "private": true,
   "type": "module",
