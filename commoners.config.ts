@@ -1,3 +1,4 @@
+// import { defineConfig } from '@commoners/solidarity'
 import * as bluetoothPlugin from '@commoners/bluetooth'
 
 const defineConfig = (o) => o 
@@ -15,12 +16,20 @@ export default defineConfig({
         }
     },
 
-
     plugins: {
         bluetooth: bluetoothPlugin,
     },
 
     services: {
+
+        // acquisitionWorker: {
+        //     src: './src/services/workers/acquisition.worker.ts',
+        //     channels: {
+        //         analyze: 'analysisWorker'
+        //     }
+        // },
+
+        // analysisWorker: './src/services/workers/analysis.worker.ts',
 
         // Packaged with pyinstaller
         python: {

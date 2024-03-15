@@ -258,7 +258,7 @@ button {
     padding-bottom: 10px;
   }
 }
-
+/* 
 @media (prefers-color-scheme: dark) {
   :root {
     color: #f6f6f6;
@@ -289,4 +289,4 @@ button {
     background-color: white;
   }
 
-}
+} */

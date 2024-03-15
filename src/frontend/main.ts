@@ -1,9 +1,32 @@
 import { MuseClient } from 'muse-js';
 // import './capacitor-polyfill'
 
+type DataType = {
+  eeg?: {
+    [key: string]: any[]
+  },
+  telemetry?: {
+    [key: string]: any[]
+  },
+  acceleration?: any[]
+}
+
+import AcquireWorker from '../services/workers/acquisition.worker?worker'
+import AnalyzeWorker from '../services/workers/analysis.worker?worker'
+
+// Share Worker Stuff
+const acquire = new AcquireWorker();
+const analyze = new AnalyzeWorker();
+const channel = new MessageChannel();
+acquire.postMessage({port: channel.port1}, [channel.port1]);
+analyze.postMessage({port: channel.port2}, [channel.port2]);
+
+analyze.onmessage = (e) => {
+  display(`<b>Worker Analysis Output</b> - ${e.data}`, 'analysis-output')
+}
+
+// Main thread
 const messages = document.getElementById('messages') as HTMLElement
-
-
 
 const connectToMuse = async (onchange = ( name: string, info: any, data: any ) => {}) => {
 
@@ -22,7 +45,7 @@ const connectToMuse = async (onchange = ( name: string, info: any, data: any ) =
   await client.connect();
   await client.start();
 
-  const data = {}
+  const data: DataType = {}
 
   client.eegReadings.subscribe(reading => {
     const now = Date.now()
