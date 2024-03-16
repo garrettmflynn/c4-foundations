@@ -16,22 +16,30 @@ jobs:
         with:
           node-version: 18
           cache: npm
+
+      - name: Set UTF-8 encoding
+        run: echo 'export LANG=en_US.UTF-8' >> $GITHUB_ENV
+    
       - name: Install dependencies
         id: install_code
         run: npm ci
+
       - name: Build
         id: build_code
         run: npm run build -- --target ios
+
       - uses: actions/cache@v4
         with:
           path: ios/App/Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
+
       # Removed explicit sync command 
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7.2
+
       - uses: maierj/fastlane-action@v2.3.0
         env:
           DEVELOPER_APP_IDENTIFIER: ${{ secrets.APP_BUNDLE_IDENTIFIER }}
@@ -52,6 +60,7 @@ jobs:
           DEVELOPER_PORTAL_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         with:
           lane: closed_beta
+          
       - name: Upload release bundle
         uses: actions/upload-artifact@v2
         with:
