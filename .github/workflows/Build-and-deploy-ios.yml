@@ -20,18 +20,16 @@ jobs:
       - name: Setup Ruby Environment
           uses: ruby/setup-ruby@v1
           with:
-            ruby-version: '3.0' # Specify your Ruby version here
+            ruby-version: '3.0' 
 
       - name: Check and Downgrade CocoaPods Version
         run: |
-          # Check CocoaPods version
           INSTALLED_VERSION=$(pod --version)
           echo "Installed CocoaPods version: $INSTALLED_VERSION"
           # Parse major, minor, and patch version
           IFS='.' read -r -a VERSION <<< "$INSTALLED_VERSION"
           MAJOR_VERSION=${VERSION[0]}
           MINOR_VERSION=${VERSION[1]}
-          # Downgrade if version is 1.11.*
           if [ "$MAJOR_VERSION" -eq 1 ] && [ "$MINOR_VERSION" -eq 11 ]; then
             echo "Downgrading CocoaPods to version 1.10.2..."
             sudo gem uninstall cocoapods --all --executables
