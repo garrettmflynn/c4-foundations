@@ -22,7 +22,7 @@ jobs:
         with:
           ruby-version: '3.0' 
 
-      - name: Check and Downgrade CocoaPods Version
+      - name: Downgrade CocoaPods Version
         run: |
           INSTALLED_VERSION=$(pod --version)
           echo "Installed CocoaPods version: $INSTALLED_VERSION"
@@ -30,13 +30,9 @@ jobs:
           IFS='.' read -r -a VERSION <<< "$INSTALLED_VERSION"
           MAJOR_VERSION=${VERSION[0]}
           MINOR_VERSION=${VERSION[1]}
-          if [ "$MAJOR_VERSION" -eq 1 ] && [ "$MINOR_VERSION" -eq 11 ]; then
-            echo "Downgrading CocoaPods to version 1.10.2..."
-            sudo gem uninstall cocoapods --all --executables
-            sudo gem install cocoapods -v 1.10.2
-          else
-            echo "CocoaPods version is compatible."
-          fi
+          echo "Downgrading CocoaPods to version 1.10.2..."
+          sudo gem uninstall cocoapods --all --executables
+          sudo gem install cocoapods -v 1.10.2
 
       - name: Install dependencies
         id: install_code
