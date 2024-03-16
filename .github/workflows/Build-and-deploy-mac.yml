@@ -36,7 +36,7 @@ jobs:
           node-version: "18"
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - uses: apple-actions/import-codesign-certs@v2
         with:

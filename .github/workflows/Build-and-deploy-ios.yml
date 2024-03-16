@@ -1,0 +1,59 @@
+name: iOS Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build_ios:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 16
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+      - name: Install dependencies
+        id: install_code
+        run: npm ci
+      - name: Build
+        id: build_code
+        run: npm run build -- --target ios
+      - uses: actions/cache@v4
+        with:
+          path: ios/App/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+      # Removed explicit sync command 
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+      - uses: maierj/fastlane-action@v2.3.0
+        env:
+          DEVELOPER_APP_IDENTIFIER: ${{ secrets.APP_BUNDLE_IDENTIFIER }}
+          DEVELOPER_APP_ID: ${{ secrets.DEVELOPER_APP_ID }}
+          PROVISIONING_PROFILE_SPECIFIER: match AppStore ${{ secrets.APP_BUNDLE_IDENTIFIER }}
+          TEMP_KEYCHAIN_USER: ${{ secrets.TEMP_KEYCHAIN_USER }}
+          TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
+          APPLE_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+          APPLE_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APPLE_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY }}
+          CERTIFICATE_STORE_URL: https://github.com/${{ secrets.CERTIFICATE_STORE_REPO }}.git
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+          GIT_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          FASTLANE_APPLE_ID: ${{ secrets.APPLE_ID }}
+          MATCH_USERNAME: ${{ secrets.APPLE_ID }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          APP_STORE_CONNECT_TEAM_ID: ${{ secrets.APP_STORE_CONNECT_TEAM_ID }}
+          DEVELOPER_PORTAL_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        with:
+          lane: closed_beta
+      - name: Upload release bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: ios-release
+          path: ./App.ipa
+          retention-days: 60

@@ -6,6 +6,7 @@ const defineConfig = (o) => o
 export default defineConfig({
 
     name: "C4 Foundations",
+    appId: 'com.c4foundation.c4foundations',
     
     icon: './logo.png', 
 
