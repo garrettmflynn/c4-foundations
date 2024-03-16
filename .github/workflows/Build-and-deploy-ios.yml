@@ -49,6 +49,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
 
+      # Removed explicit sync command 
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7.2
+          
       - uses: maierj/fastlane-action@v2.3.0
         env:
           DEVELOPER_APP_IDENTIFIER: ${{ secrets.APP_BUNDLE_IDENTIFIER }}
