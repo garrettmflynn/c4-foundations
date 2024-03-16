@@ -18,7 +18,11 @@ jobs:
           cache: npm
 
       - name: Set UTF-8 encoding
-        run: echo 'export LANG=en_US.UTF-8' >> $GITHUB_ENV
+        run: |
+          export LC_ALL=pt_BR.UTF-8
+          export LANG=pt_BR.UTF-8
+          echo "Current locale settings:"
+          locale
     
       - name: Install dependencies
         id: install_code
