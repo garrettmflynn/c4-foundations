@@ -17,13 +17,29 @@ jobs:
           node-version: 18
           cache: npm
 
-      - name: Set UTF-8 encoding
+      - name: Setup Ruby Environment
+          uses: ruby/setup-ruby@v1
+          with:
+            ruby-version: '3.0' # Specify your Ruby version here
+
+      - name: Check and Downgrade CocoaPods Version
         run: |
-          export LC_ALL=pt_BR.UTF-8
-          export LANG=pt_BR.UTF-8
-          echo "Current locale settings:"
-          locale
-    
+          # Check CocoaPods version
+          INSTALLED_VERSION=$(pod --version)
+          echo "Installed CocoaPods version: $INSTALLED_VERSION"
+          # Parse major, minor, and patch version
+          IFS='.' read -r -a VERSION <<< "$INSTALLED_VERSION"
+          MAJOR_VERSION=${VERSION[0]}
+          MINOR_VERSION=${VERSION[1]}
+          # Downgrade if version is 1.11.*
+          if [ "$MAJOR_VERSION" -eq 1 ] && [ "$MINOR_VERSION" -eq 11 ]; then
+            echo "Downgrading CocoaPods to version 1.10.2..."
+            sudo gem uninstall cocoapods --all --executables
+            sudo gem install cocoapods -v 1.10.2
+          else
+            echo "CocoaPods version is compatible."
+          fi
+
       - name: Install dependencies
         id: install_code
         run: npm ci
@@ -38,11 +54,6 @@ jobs:
           key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
-
-      # Removed explicit sync command 
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 2.7.2
 
       - uses: maierj/fastlane-action@v2.3.0
         env:
