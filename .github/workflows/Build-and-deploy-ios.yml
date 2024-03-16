@@ -52,7 +52,7 @@ jobs:
       - uses: maierj/fastlane-action@v2.3.0
         env:
           DEVELOPER_APP_IDENTIFIER: ${{ secrets.APP_BUNDLE_IDENTIFIER }}
-          DEVELOPER_APP_ID: ${{ secrets.DEVELOPER_APP_ID }}
+          DEVELOPER_APP_ID: ${{ secrets.APP_ID }}
           PROVISIONING_PROFILE_SPECIFIER: match AppStore ${{ secrets.APP_BUNDLE_IDENTIFIER }}
           TEMP_KEYCHAIN_USER: ${{ secrets.TEMP_KEYCHAIN_USER }}
           TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
@@ -61,7 +61,7 @@ jobs:
           APPLE_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY }}
           CERTIFICATE_STORE_URL: https://github.com/${{ secrets.CERTIFICATE_STORE_REPO }}.git
           GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
-          GIT_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
           FASTLANE_APPLE_ID: ${{ secrets.APPLE_ID }}
           MATCH_USERNAME: ${{ secrets.APPLE_ID }}
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
