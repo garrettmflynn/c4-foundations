@@ -18,9 +18,9 @@ jobs:
           cache: npm
 
       - name: Setup Ruby Environment
-          uses: ruby/setup-ruby@v1
-          with:
-            ruby-version: '3.0' 
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.0' 
 
       - name: Check and Downgrade CocoaPods Version
         run: |
