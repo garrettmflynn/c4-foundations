@@ -2,8 +2,9 @@ name: iOS Release
 
 on:
   push:
-    tags:
-      - '*'
+    branches: ["latest"]
+
+  workflow_dispatch:
 
 jobs:
   build_ios:
