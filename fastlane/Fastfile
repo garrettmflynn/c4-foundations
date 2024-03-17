@@ -33,7 +33,10 @@ end
 
 platform :ios do
 
-  xcversion(version: "15.0") 
+  xcodes(
+    version: '15',
+    select_for_current_build_only: true,
+  )
 
   lane :build do
     build_app(
