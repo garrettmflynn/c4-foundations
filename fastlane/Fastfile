@@ -32,6 +32,9 @@ def ensure_temp_keychain(name, password)
 end
 
 platform :ios do
+
+  xcversion(version: "15.0") 
+
   lane :build do
     build_app(
       configuration: "Release",
