@@ -35,7 +35,7 @@ platform :ios do
 
   xcodes(
     version: '15',
-    select_for_current_build_only: true,
+    select_for_current_build_only: false, # Ensure version is installed
   )
 
   lane :build do
