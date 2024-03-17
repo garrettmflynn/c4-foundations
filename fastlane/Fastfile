@@ -10,6 +10,7 @@ APPLE_KEY_ID = ENV["APPLE_KEY_ID"]
 APPLE_KEY_CONTENT = ENV["APPLE_KEY_CONTENT"]
 GIT_USERNAME = ENV["GIT_USERNAME"]
 GIT_TOKEN = ENV["GIT_TOKEN"]
+APP_STORE_CONNECT_TEAM_ID = ENV["APP_STORE_CONNECT_TEAM_ID"]
 
 def delete_temp_keychain(name)
   delete_keychain(
@@ -33,12 +34,24 @@ end
 
 platform :ios do
 
-  # xcodes(
-  #   version: '15',
-  #   select_for_current_build_only: false, # Ensure version is installed
-  # )
-
   lane :build do
+
+    # Resolves https://github.com/fastlane/fastlane/issues/14978
+    disable_automatic_code_signing
+
+    update_project_provisioning(
+      xcodeproj: "Project.xcodeproj",
+      profile: PROVISIONING_PROFILE_SPECIFIER,
+      build_configuration: "Release",
+      code_signing_identity: "iPhone Distribution"
+    )
+
+    update_project_team(
+      path: "Project.xcodeproj",
+      teamid: APP_STORE_CONNECT_TEAM_ID # Or DEVELOPER_PORTAL_TEAM_ID
+    )
+
+
     build_app(
       configuration: "Release",
       workspace: "./ios/App/App.xcworkspace",
