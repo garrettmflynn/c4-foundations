@@ -23,10 +23,6 @@ export default defineConfig({
 
     services: {
 
-        // acquisitionWorker: './src/services/workers/acquisition.worker.ts',
-
-        // analysisWorker: './src/services/workers/analysis.worker.ts',
-
         // Packaged with pyinstaller
         python: {
             description: 'A simple Python server',
