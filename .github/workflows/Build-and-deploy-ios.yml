@@ -22,6 +22,7 @@ jobs:
         with:
           ruby-version: '3.0' 
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          working-directory: .bundle
 
       - name: Downgrade CocoaPods Version
         run: |
