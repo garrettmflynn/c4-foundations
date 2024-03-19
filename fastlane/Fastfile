@@ -34,6 +34,9 @@ end
 
 platform :ios do
 
+  # Fix https://github.com/fastlane/fastlane/issues/20670 with https://stackoverflow.com/a/74391211
+  xcodes(version: "13.4.1")
+
   lane :build do
 
     build_app(
