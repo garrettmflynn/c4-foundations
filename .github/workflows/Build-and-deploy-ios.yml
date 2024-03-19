@@ -62,6 +62,10 @@ jobs:
             MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
             APP_STORE_CONNECT_TEAM_ID: ${{ secrets.APP_STORE_CONNECT_TEAM_ID }}
             DEVELOPER_PORTAL_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+
+            # New Configuration
+            SIGNING_KEY_PASSWORD: ${{ secrets.IOS_DIST_SIGNING_KEY_PASSWORD }}
+            SIGNING_KEY_FILE_PATH: signing-cert.p12
   
       - name: Upload app-store ipa and dsyms to artifacts
         uses: actions/upload-artifact@v2
