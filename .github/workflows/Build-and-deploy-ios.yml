@@ -42,13 +42,6 @@ jobs:
       - name: Build
         id: build_code
         run: npm run build -- --target ios
-
-      - uses: actions/cache@v4
-        with:
-          path: ios/App/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
   
       - name: Build & upload iOS binary
         run: bundle exec fastlane ios build_upload_testflight
