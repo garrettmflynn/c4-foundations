@@ -48,7 +48,7 @@ platform :ios do
 
     update_project_team(
       path: "Project.xcodeproj",
-      teamid: APP_STORE_CONNECT_TEAM_ID # Or DEVELOPER_PORTAL_TEAM_ID
+      teamid: DEVELOPER_PORTAL_TEAM_ID # APP_STORE_CONNECT_TEAM_ID # Or DEVELOPER_PORTAL_TEAM_ID
     )
 
 
