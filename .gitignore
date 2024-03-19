@@ -1,6 +1,9 @@
 .vscode
 .env
 
+# Ruby
+Gemfile.lock
+
 # Global Workspace
 .commoners
 

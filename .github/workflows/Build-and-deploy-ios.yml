@@ -50,12 +50,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
 
-      # - name: Reset Ruby version to maintain compatibility with Fastlane
-      #   uses: ruby/setup-ruby@v1
-      #   with:
-      #     ruby-version: 2.7.2
-      #     bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-
       - uses: maierj/fastlane-action@v3.1.0
         env:
           DEVELOPER_APP_IDENTIFIER: ${{ secrets.APP_BUNDLE_IDENTIFIER }}
