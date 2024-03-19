@@ -42,35 +42,44 @@ jobs:
       - name: Build
         id: build_code
         run: npm run build -- --target ios
-  
-      - name: Build & upload iOS binary
-        run: bundle exec fastlane ios build_upload_testflight
-        env:
-            DEVELOPER_APP_IDENTIFIER: ${{ secrets.APP_BUNDLE_IDENTIFIER }}
-            DEVELOPER_APP_ID: ${{ secrets.APP_ID }}
-            PROVISIONING_PROFILE_SPECIFIER: match AppStore ${{ secrets.APP_BUNDLE_IDENTIFIER }}
-            TEMP_KEYCHAIN_USER: ${{ secrets.TEMP_KEYCHAIN_USER }}
-            TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
-            APPLE_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
-            APPLE_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
-            APPLE_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY }}
-            CERTIFICATE_STORE_URL: https://github.com/${{ secrets.CERTIFICATE_STORE_REPO }}.git
-            GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
-            GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
-            FASTLANE_APPLE_ID: ${{ secrets.APPLE_ID }}
-            MATCH_USERNAME: ${{ secrets.APPLE_ID }}
-            MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-            APP_STORE_CONNECT_TEAM_ID: ${{ secrets.APP_STORE_CONNECT_TEAM_ID }}
-            DEVELOPER_PORTAL_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
 
-            # New Configuration
-            SIGNING_KEY_PASSWORD: ${{ secrets.IOS_DIST_SIGNING_KEY_PASSWORD }}
-            SIGNING_KEY_FILE_PATH: signing-cert.p12
-  
-      - name: Upload app-store ipa and dsyms to artifacts
+      - uses: actions/cache@v4
+        with:
+          path: ios/App/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      # - name: Reset Ruby version to maintain compatibility with Fastlane
+      #   uses: ruby/setup-ruby@v1
+      #   with:
+      #     ruby-version: 2.7.2
+      #     bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - uses: maierj/fastlane-action@v3.1.0
+        env:
+          DEVELOPER_APP_IDENTIFIER: ${{ secrets.APP_BUNDLE_IDENTIFIER }}
+          DEVELOPER_APP_ID: ${{ secrets.APP_ID }}
+          PROVISIONING_PROFILE_SPECIFIER: match AppStore ${{ secrets.APP_BUNDLE_IDENTIFIER }}
+          TEMP_KEYCHAIN_USER: ${{ secrets.TEMP_KEYCHAIN_USER }}
+          TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
+          APPLE_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ISSUER_ID }}
+          APPLE_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          APPLE_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_KEY }}
+          CERTIFICATE_STORE_URL: https://github.com/${{ secrets.CERTIFICATE_STORE_REPO }}.git
+          GIT_USERNAME: ${{ secrets.GIT_USERNAME }}
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+          FASTLANE_APPLE_ID: ${{ secrets.APPLE_ID }}
+          MATCH_USERNAME: ${{ secrets.APPLE_ID }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          APP_STORE_CONNECT_TEAM_ID: ${{ secrets.APP_STORE_CONNECT_TEAM_ID }}
+          DEVELOPER_PORTAL_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        with:
+          lane: closed_beta
+          
+      - name: Upload release bundle
         uses: actions/upload-artifact@v2
         with:
-          name: app-store ipa & dsyms
-          path: |
-            ${{ github.workspace }}/example-iOS.ipa
-            ${{ github.workspace }}/*.app.dSYM.zip
+          name: ios-release
+          path: ./App.ipa
+          retention-days: 60
