@@ -29,7 +29,8 @@
   },
   "dependencies": {
     "@capacitor-community/bluetooth-le": "^3.1.1",
-    "muse-capacitor": "file:///./src/muse-capacitor"
+    "muse-capacitor": "file:///./src/muse-capacitor",
+    "uplot": "^1.6.30"
   },
   "devDependencies": {
     "@capacitor/android": "^5.5.0",

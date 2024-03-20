@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1,user-scalable=0"/>
     <title>C4 Foundations</title>
     <script type="module" src="/src/frontend/main.ts" defer></script>
-    <script src="https://unpkg.com/swagger-client"></script>
   </head>
 
   <body>
@@ -21,14 +20,35 @@
             <small>Strengthening Navy SEAL Families</small>
           </div>
         </div>
+        <div>
+          <div id="connect">
+            <button id="connect-button">Connect</button>
+          </div>
+          <div id="connected" hidden>
+            <button id="disconnect-button">Disconnect</button>
+            <div id="battery">
+              <div></div>
+            </div>
+            <div>
+              <label>Temp</label>
+              <span id="temperature"></span>
+            </div>
+            <div>
+              <div>
+                <label>Hardware</label>
+                <span id="hardwareVersion"></span>
+              </div>
+              <div>
+                <label>Firmware</label>
+                <span id="firmwareVersion"></span>
+              </div>
+            </div>
+          </div>
+        </div>
       </nav>
       <main>
-        <div id="console">
-          <div id="messages"></div>
-        </div>
-        <ul id="commands">
-          <li>Connect to Bluetooth Device <button id="testBluetoothConnection">Run</button></li>
-        </ul>
+        <small>Will add content here. Data will populate after device connection</small>
+        <div id="graphs"></div>
       </main>
       <footer>
         <small>Built with ✊ by Garrett Flynn</small>
