@@ -42,7 +42,10 @@ const connectToMuse = async (onchange = ( name: string, info: any, data: any ) =
     }
   }
 
-  const client = new MuseClient();
+  const client = new MuseClient({
+    ppg: true
+  });
+
   await client.connect();
   await client.start();
 
@@ -84,6 +87,19 @@ const connectToMuse = async (onchange = ( name: string, info: any, data: any ) =
     data.acceleration.push(update)
     onchange('acceleration', update, data)
   });
+
+  client.ppgReadings.subscribe(reading => {
+    const now = Date.now()
+    if (!data.ppg) data.ppg = {}
+    const channel = reading.ppgChannel
+    if (!data.ppg[channel]) data.ppg[channel] = []
+    const update  = { eegTimestamp: reading.timestamp, timestamp: now, samples: reading.samples }
+    data.ppg[channel].push(update)
+    onchange('ppg', {
+      channel,
+      ...update
+    }, data)
+  })
 
   return client
 }
@@ -150,6 +166,14 @@ commoners.ready.then(plugins => {
       const { x, y, z } = samples[samples.length - 1]
       display(`<b>Acceleration</b>\nx: ${x.toFixed(5)}\ny: ${y.toFixed(5)}\nz: ${z.toFixed(5)}`, 'acceleration')
     }
+
+    else if (name === 'ppg') {
+      const { channel, samples } = info
+      const latestSample = samples[samples.length - 1]
+      display(`<b>PPG (${channel})</b> ${latestSample.toFixed(5)}`, `ppg-${channel}`)
+    }
+
+    else console.log('Uncaptured data', name, info, data)
   }
 
   if (testBluetoothConnection) {
@@ -157,6 +181,10 @@ commoners.ready.then(plugins => {
       const client = await connectToMuse(onDataChanged)
       const device = client.device
       display(`<b>Connected to Bluetooth Device</b> - ${device.name || `ID: ${device.deviceId}`}`)
+
+      await client.deviceInfo().then(({ fw: firmwareVersion, hw: hardwareVersion }) => {
+        console.log('Device Info', firmwareVersion, hardwareVersion)
+      });
     })
 
     else testBluetoothConnection.setAttribute('disabled', '')

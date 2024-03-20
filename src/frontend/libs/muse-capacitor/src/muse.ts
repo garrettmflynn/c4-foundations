@@ -81,13 +81,16 @@ export class MuseClient {
     ppgReadings: Observable<PPGReading>;
     eventMarkers: Subject<EventMarker>;
 
-    private gatt: BluetoothRemoteGATTServer | null = null;
-    private controlChar: BluetoothRemoteGATTCharacteristic;
     private eegCharacteristics: Observable<DataView>[];
     private ppgCharacteristics: Observable<DataView>[];
 
     private lastIndex: number | null = null;
     private lastTimestamp: number | null = null;
+
+    constructor({ aux = false, ppg = false } = {}) {
+        this.enableAux = aux;
+        this.enablePpg = ppg;
+    }
 
 
     device?: BleDevice;
@@ -197,14 +200,11 @@ export class MuseClient {
 
     async start() {
         await this.pause();
-        let preset = 'p21';
-        if (this.enablePpg) {
-            preset = 'p50';
-        } else if (this.enableAux) {
-            preset = 'p20';
-        }
 
-        await this.sendCommand(preset);
+        if (this.enablePpg) await this.sendCommand('p50')
+        else if (this.enableAux) await this.sendCommand('p20')
+        else await this.sendCommand('p21')
+
         await this.sendCommand('s');
         await this.resume();
     }
