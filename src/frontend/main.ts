@@ -1,4 +1,5 @@
-import { MuseClient } from 'muse-js';
+// import { MuseClient } from '../../../muse-capacitor/src/muse';
+import { MuseClient } from './libs/muse-capacitor/src/muse';
 // import './capacitor-polyfill'
 
 type DataType = {
@@ -154,8 +155,8 @@ commoners.ready.then(plugins => {
   if (testBluetoothConnection) {
     if ('bluetooth' in plugins) testBluetoothConnection.addEventListener('click', async () => {
       const client = await connectToMuse(onDataChanged)
-      const device = client.gatt.device
-      display(`<b>Connected to Bluetooth Device</b> - ${device.name || `ID: ${device.id}`}`)
+      const device = client.device
+      display(`<b>Connected to Bluetooth Device</b> - ${device.name || `ID: ${device.deviceId}`}`)
     })
 
     else testBluetoothConnection.setAttribute('disabled', '')

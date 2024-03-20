@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "commonjs",
     "lib": ["ESNext", "DOM"],
+    "module": "commonjs",
     "moduleResolution": "Node",
     "strict": true,
     "sourceMap": true,
@@ -12,7 +12,14 @@
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "removeComments": false,
+    "declaration": true,
+    "noEmitOnError": true,
   },
-  "include": ["./src/frontend", "src/services/workers"]
+
+  "include": ["src/**/*.ts"],
 }

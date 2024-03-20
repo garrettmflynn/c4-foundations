@@ -1,0 +1,23 @@
+{
+  "name": "muse-capacitor",
+  "version": "3.3.0",
+  "description": "Muse 2016 EEG Headset JavaScript Library",
+  "main": "dist/muse.js",
+  "typings": "dist/muse.d.ts",
+  "repository": "https://github.com/garrettmflynn/muse-capacitor",
+  "author": "Garrett Flynn <garrettmflynn@gmail.com>",
+  "contributors": [
+    "Uri Shaked <uri@codemagic.co.il>"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@capacitor-community/bluetooth-le": "^3.1.2",
+    "rxjs": "^6.0.0 || ^5.6.0-forward-compat.4"
+  }
+}

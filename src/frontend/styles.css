@@ -22,17 +22,11 @@
   --awb-custom_color_7: #918e90;
   --awb-custom_color_9: #707070;
   --awb-custom_color_10: #2a2527;
-
 }
 
 * {
   box-sizing: border-box;
 }
-
-h1, h2, h3 {
-  color: var(--awb-custom_color_2);
-}
-
 
 [disabled] {
   opacity: 0.5;
@@ -41,12 +35,13 @@ h1, h2, h3 {
 
 html, body {
   margin: 0;
-  overflow: hidden;
   background: var(--awb-custom_color_1);
+  overflow: hidden;
 }
 
 html {
   height: -webkit-fill-available;
+  position: relative;
 }
 
 
@@ -57,6 +52,11 @@ body {
   height: 100%;
   min-height: -webkit-fill-available;
 }
+
+h1, h2, h3 {
+  color: var(--awb-custom_color_2);
+}
+
 
 nav {
   padding: 50px 25px;
