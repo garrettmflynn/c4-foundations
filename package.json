@@ -8,7 +8,7 @@
   "author": "Garrett Flynn <garrettmflynn@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/garrettmflynn/c4-foundations.git"
+    "url": "https://github.com/neuralinterfaces/c4-foundations.git"
   },
   "workspaces": [
     "src/**"
